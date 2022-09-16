@@ -28,7 +28,7 @@
             "patterns": [
                 {
                     "name": "meta.return.redmod-script",
-                    "begin": "(?<![_\\.[:alnum:]])\\b(return)(?:(?=\\s))",
+                    "begin": "(?<![_\\.[:alnum:]])\\b(return)(?:(?=\\s|;))",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.control.return.redmod-script"

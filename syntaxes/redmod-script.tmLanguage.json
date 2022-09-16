@@ -1,0 +1,1159 @@
+{
+    "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+    "name": "REDmodScript",
+    "patterns": [
+        {
+            "include": "#operator-definition"
+        },
+        {
+            "include": "#enum-definition"
+        },
+        {
+            "include": "#class-definition"
+        },
+        {
+            "include": "#function-definition"
+        }
+    ],
+    "repository": {
+        "statements": {
+            "name": "meta.generic-statement.redmod-script",
+            "begin": "(?<=\\s\\b)",
+            "end": ";",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.statement.end.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "name": "meta.return.redmod-script",
+                    "begin": "(?<![_\\.[:alnum:]])\\b(return)(?:(?=\\s))",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.control.return.redmod-script"
+                        }
+                    },
+                    "end": "(?:(?=;))",
+                    "patterns": [
+                        {
+                            "include": "#assignment"
+                        },
+                        {
+                            "include": "#expression-body"
+                        }
+                    ]
+                },
+                {
+                    "name": "keyword.control.break.redmod-script",
+                    "match": "(?<![_\\.[:alnum:]])\\b(break)(?:(?=\\s*;))"
+                },
+                {
+                    "include": "#assignment"
+                },
+                {
+                    "name": "meta.call.redmod-script",
+                    "begin": "(?<![_\\.[:alnum:]])\\b(?:(?=[\\.a-zA-Z]))",
+                    "end": "(?:(?=;))",
+                    "patterns": [
+                        {
+                            "include": "#function-call"
+                        },
+                        {
+                            "include": "#variable"
+                        }
+                    ]
+                }
+            ]
+        },
+        "expressions": {
+            "name": "meta.expression.redmod-script",
+            "begin": "\\(",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.expression.begin.redmod-script"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.expression.end.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#expression-body"
+                }
+            ]
+        },
+        "expression-body": {
+            "patterns": [
+                {
+                    "include": "#ternary"
+                },
+                {
+                    "include": "#type-cast"
+                },
+                {
+                    "include": "#expressions"
+                },
+                {
+                    "include": "#primitives"
+                },
+                {
+                    "include": "#function-call"
+                },
+                {
+                    "include": "#instantiation"
+                },
+                {
+                    "include": "#builtin-enum"
+                },
+                {
+                    "include": "#variable"
+                },
+                {
+                    "include": "#operators"
+                }
+            ]
+        },
+        "variable-name": {
+            "name": "meta.variable.name.redmod-script",
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])\\b(this|super)",
+                    "name": "constant.language.$1.redmod-script"
+                },
+                {
+                    "match": "(?<![_\\.[:alnum:]])\\b[A-Z][_[:alnum:]]+\\b(?:(?!\\())",
+                    "name": "entity.name.type.static.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\bm_[_[:alnum:]]+",
+                    "name": "variable.other.constant.member.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\b[a-zA-Z][_[:alnum:]]*\\b(?:(?!\\())",
+                    "name": "variable.name.redmod-script"
+                }
+            ]
+        },
+        "builtin-enum": {
+            "name": "meta.enum.builtin.redmod-script",
+            "match": "(?<![_\\.\\][:alnum:]])\\b(AI(?:actionParamsPackageTypes|ArgumentType|behavior(?:CombatModes|CompletionStatus|ConditionOutcomes|UpdateOutcome)|CombatSectorType|CombatSpaceSize|CommandState|CoverExposureMethod|EExecutionOutcome|EInterruptionOutcome|influenceEBumpPolicy|ParameterizationType|ReactionCountOutcome|SignalFlags|SquadType|ThreatPersistenceStatus|TrackedStatusType|UninterruptibleActionType)|anim(?:LookAt(?:ChestMode|EyesMode|HeadMode|LeftHandedMode|LimitDegreesType|LimitDistanceType|RightHandedMode|Status|Style|TwoHandedMode)|AimState|CoverAction|CoverState|HitReactionType|NPCVehicleDeathType|StanceState|WeaponOwnerType)|game(?:data(?:Achievement|Affiliation|AIActionSecurityAreaType|AIActionSecurityNotificationType|AIActionTarget|AIActionType|AIAdditionalTraceType|AIDirectorEntryStartType|AIExposureMethodType|AimAssistType|AIRingType|AIRole|AISmartCompositeType|AISquadType|AITacticType|AIThreatPersistenceSource|AITicketType|ArchetypeType|AttackSubtype|AttackType|BuildType|ChargeStep|CheckType|ChoiceCaptionPartType|CompanionDistancePreset|ConsumableBaseName|ConsumableType|DamageType|DefenseMode|DevelopmentPointType|District|EffectorTimeDilationDriver|EquipmentArea|Ethnicity|FxAction|FxActionType|Gender|GrenadeDeliveryMethodType|HitPrereqConditionType|ImprovementRelation|ItemCategory|ItemStructure|ItemType|LifePath|LocomotionMode|MappinPhase|MappinVariant|MeleeAttackDirection|MetaQuest|MovementType|NPCBehaviorState|NPCHighLevelState|NPCQuestAffiliation|NPCRarity|NPCStanceState|NPCType|NPCUpperBodyState|ObjectActionReference|ObjectActionType|Output|ParentAttachmentType|PerkArea|PerkType|PerkUtility|PingType|PlayerBuild|PlayerPossesion|ProficiencyType|ProjectileLaunchMode|ProjectileOnCollisionAction|Quality|ReactionPresetType|SenseObjectType|SpawnableObjectPriority|StatPoolType|StatType|StatusEffectAIBehaviorFlag|StatusEffectAIBehaviorType|StatusEffectType|StatusEffectVariation|StimPriority|StimPropagation|StimTargets|StimType|SubCharacter|TrackingMode|TraitType|TriggerMode|UICondition|UIIconCensorFlag|UINameplateDisplayType|VehicleManufacturer|VehicleModel|VehicleType|VendorType|WeaponEvolution|WeaponManufacturer|WorkspotActionType|WorkspotCategory|WorkspotReactionType|WorldMapFilter)|interactions(?:BumpIntensity|BumpLocation|BumpSide|ChoiceType|EInteractionEventType|ELootChoiceType|ELootVisualiserControlOperation|ReactionState)|PSM(?:BodyCarrying|BodyCarryingLocomotion|BodyCarryingStyle|Combat|CombatGadget|CrosshairStates|DetailedBodyDisposal|DetailedLocomotionStates|FallStates|HighLevel|LandingState|LeftHandCyberware|LocomotionStates|Melee|MeleeWeapon|NanoWireLaunchMode|RangedWeaponStates|Reaction|Stamina|Swimming|Takedown|TimeDilation|UIState|UpperBodyStates|Vehicle|Vision|VisionDebug|Vitals|WeaponStates|Whip|WorkspotState|Zones)|Player(?:CoverDirection|CoverMode|ObstacleSystemQueryType|StateMachine)|audioeventsSurfaceDirection|cheatsystemFlag|CityAreaType|CombinedStatOperation|ContactType|CoverHeight|DamageCallbackType|DamagePipelineStage|DebugViewETextAlignment|deviceActionPropertyFlags|deviceRequestType|Difficulty|DismBodyPart|DismWoundType|EActionStatus|EContinuousMode|EEquipmentManagerState|EItemIDFlag|EnemyStealthAwarenessState|EntitySpawnerEventType|EPrerequisiteType|EquipAnimationType|EStatFlags|eventsDeathDirection|FearStage|GameVersion|GodModeType|GrenadeThrowStartType|influenceCollisionTestOutcome|influenceTestLineResult|inputActionType|ItemEquipContexts|ItemUnequipContexts|JournalBriefingContentType|JournalEntryState|JournalListenerType|JournalQuestType|KillType|LoSMode|mappinsMappinTargetType|mappinsVerticalPositioning|MessageSender|MountingObjectType|MountingRelationshipType|MountingSlotRole|MovingPlatformLoopType|MovingPlatformMovementInitializationType|PlatformMovementState|projectileELaunchMode|projectileOnCollisionAction|ReprimandMappinAnimationState|SaveLockReason|ScanningMode|ScanningState|SceneAnimationMotionActionParamsPlacementMode|ScriptedBlackboardStorage|ScriptTaskExecutionStage|SharedInventoryTag|smartGunTargetState|stateMachineParameterAspect|StatModifierType|StatObjectsRelation|StatPoolModificationTypes|StoryTier|targetingSystemETargetFilterStatus|TelemetryDamageSituation|TickableEventState|TutorialBracketType|uiAuthorisationNotificationType|uiCharacterCustomizationEditTag|uiCharacterCustomizationPart|uiDamageDigitsMode|uiDamageDigitsStickingMode|uiDamageIndicatorMode|uiEBraindanceLayer|uiEClueDescriptorMode|uiETooltipPlacement|uiEWorldMapCameraMode|uiEWorldMapDistrictView|uiHitType|uiMappinGroupState|uiPatchIntro|uiTutorialHiddenReason|VisionModeType|WardrobeClothingSetIndex|weaponReloadStatus)|ActiveMode|ActorVisibilityStatus|AdditionalTraceType|AimAssistSettingConfig|aimTypeEnum|ArcadeMinigame|AttitudeChange|AttributeButtonState|ATUIComputerTestStepMode|audioAudioEventFlags|audioEventActionType|BlacklistReason|braindanceVisionMode|ButtonStatus|CharacterScreenType|CloudSavesQueryStatus|ClueState|CodexCategoryType|CodexDataSource|CodexImageType|ConfigChangeReason|ConfigNotificationType|ConfigVarType|ConfigVarUpdatePolicy|coverLeanDirection|CrafringMaterialItemHighlight|CraftingCommands|CraftingMode|CraftingNotificationType|CurrencyNotificationAnimState|CustomButtonType|CustomWeaponWheelSlot|CyberwareInfoType|CyberwareScreenType|DamageEffectDisplayType|damageSystemLogFlags|DerivedFilterResult|DeviceStimType|DMGPipelineType|DronePose|DropdownDisplayContext|DropdownItemDirection|DropPointPackageStatus|EActionContext|EActionInactivityReson|EActionsSequencerMode|EActionType|EActivationState|EAIActionPhase|EAIActionState|EAIActionTarget|EAIAttitude|EAIBackgroundCombatStep|EAIBlockDirection|EAICombatPreset|EAICoverAction|EAICoverActionDirection|EAIDismembermentBodyPart|EAIGateEventFlags|EAIGateSignalFlags|EAIHitBodyPart|EAIHitDirection|EAIHitIntensity|EAIHitSource|EAILastHitReactionPlayed|EAimAssistLevel|EAIPlayerSquadOrder|EAIRole|EAIShootingPatternRange|EAISquadAction|EAISquadChoiceAlgorithm|EAISquadRing|EAISquadTactic|EAISquadVerb|EAITargetType|EAIThreatCalculationType|EAITicketStatus|EAllowedTo|EAnimationType|EArgumentType|EAttackType|EAxisType|EBarkList|EBeamStyle|EBinkOperationType|EBOOL|EBreachOrigin|EBroadcasteingType|ECallbackExpressionActions|ECameraDirectionFunctionalTestsUtil|ECarryState|ECartOperationResult|ECentaurShieldState|ECLSForcedState|ECompanionDistancePreset|ECompanionPositionPreset|ECompareOp|EComparisonOperator|EComparisonType|EComponentOperation|EComputerAnimationState|EComputerMenuType|EConclusionQuestState|ECooldownGameControllerMode|ECooldownIndicatorState|ECoverSpecialAction|ECraftingIconPositioning|ECustomFilterDPadNavigationOption|EDeathType|EDebuggerColor|EDeviceChallengeAttribute|EDeviceChallengeSkill|EDeviceDurabilityState|EDeviceDurabilityType|EDeviceStatus|EDocumentType|EDodgeMovementInput|EDoorOpeningType|EDoorSkillcheckSide|EDoorStatus|EDoorTriggerSide|EDoorType|EDownedType|EDPadSlot|EDrillMachineRewireState|EEffectOperationType|EEquipmentSetType|EEquipmentSide|EEquipmentState|EExplosiveAdditionalGameEffectType|EFastTravelDeviceType|EFastTravelSystemInstruction|EFastTravelTriggerType|EFilterType|EFocusClueInvestigationState|EFocusForcedHighlightType|EFocusOutlineType|EForcedElevatorArrowsState|EGameplayChallengeLevel|EGameplayRole|EGameSessionDataType|EGenericNotificationPriority|EGlitchState|EGOGMenuState|EGravityType|EGrenadeType|EHandEquipSlot|EHitReactionMode|EHitReactionZone|EHitShapeType|EHotkey|EHotkeyRequestType|EHudAvatarMode|EHudPhoneFunction|EHudPhoneVisibility|EIndustrialArmAnimations|EInitReactionAnim|EInkAnimationPlaybackOption|EInputCustomKey|EInputKey|EInventoryComboBoxMode|EInventoryDataStatDisplayType|EInventoryItemShape|EItemOperationType|EJuryrigTrapState|EKnockdownStates|ELastUsed|ELauncherActionType|ELaunchMode|ELayoutType|ELightSequenceStage|ELightSwitchRandomizerType|ELinkType|ELogicOperator|ELogType|EMagazineAmmoState|EMappinDisplayMode|EMappinVisualState|EMathOperationType|EMathOperator|EMeasurementSystem|EMeasurementUnit|EMeleeAttacks|EMeleeAttackType|EMissileRainPhase|EMoveAssistLevel|EMovementDirection|ENetworkRelation|ENeutralizeType|ENPCPhaseState|ENPCTelemetryData|entAttachmentTarget|entAudioDismembermentPart|EntityNotificationType|entragdollActivationRequestType|entVisibilityParamSource|EOperationClassType|EOutlineType|EPaymentSchedule|EPermissionSource|EPersonalLinkConnectionStatus|EPersonalLinkSlotSide|EPingType|EPlayerMovementDirection|EPlaystyle|EPlaystyleType|EPowerDifferential|EPreventionDebugProcessReason|EPreventionHeatStage|EPreventionPsychoLogicType|EPreventionSystemInstruction|EPriority|EProgressBarContext|EProgressBarType|EQuestFilterType|EQuestVehicleDoorState|EQuestVehicleWindowState|EquipmentManipulationAction|EquipmentManipulationRequestSlot|EquipmentManipulationRequestType|EquipmentPriority|ERadialMode|ERadioStationList|EReactionValue|ERenderingPlane|ERentStatus|EReprimandInstructions|ERevealDurationType|ERevealPlayerType|ERevealState|EScreenRatio|ESecurityAccessLevel|ESecurityAreaType|ESecurityGateEntranceType|ESecurityGateResponseType|ESecurityGateScannerIssueType|ESecurityGateStatus|ESecurityNotificationType|ESecuritySystemState|ESecurityTurretStatus|ESecurityTurretType|ESensorDeviceStates|ESensorDeviceWakeState|EShouldChangeAttitude|ESlotState|ESmartBulletPhase|ESmartHousePreset|ESoundStatusEffects|ESpaceFillMode|EStatProviderDataSource|EStatusEffectBehaviorType|EStatusEffects|EstatusEffectsState|ESurveillanceCameraState|ESurveillanceCameraStatus|ESwitchAction|ESystems|ETakedownActionType|ETakedownBossName|ETargetManagerAnimGraphState|ETauntType|ETelemetryData|EToggleActivationTypeComputer|EToggleOperationType|ETooltipsStyle|ETransformAnimationOperationType|ETransitionMode|ETrap|ETrapEffects|ETriggerOperationType|ETVChannel|ETweakAINodeType|EUIActionState|EUIStealthIconType|EUploadProgramState|EVarDBMode|EVehicleDoor|EVehicleWindowState|EVendorMode|EViabilityDecision|EVirtualSystem|EVisualizerActivityState|EVisualizerDefinitionFlags|EVisualizerType|EWeaponNamesList|EWidgetPlacementType|EWidgetState|EWindowBlindersStates|EWorkspotOperationType|EWorldMapView|EWoundedBodyPart|ExplosiveTriggerDeviceLaserState|ExtraEffect|Ft_Result|Ft_TakedownStage|Ft_TakedownType|FTEntityRequirementsFlag|FTNpcMountingState|FTScriptState|FunctionalTestsResultCode|GameplayTier|GenericMessageNotificationResult|GenericMessageNotificationType|GenericNotificationType|GOGRewardsSystemErrors|GOGRewardsSystemStatus|GrenadeDamageType|grsHeistStatus|HackingMinigameState|HighlightContext|HighlightMode|hitFlag|HitShape_Type|HoverStatus|HubMenuCharacterItems|HubMenuCraftingItems|HubMenuDatabaseItems|HubMenuInventoryItems|HubMenuItems|HubVendorMenuItems|HUDActorStatus|HUDActorType|HUDContext|HUDState|inkanimEventType|inkanimInterpolationDirection|inkanimInterpolationMode|inkanimInterpolationType|inkanimLoopType|inkanimPropertyType|inkBrushDrawType|inkBrushMirrorType|inkBrushTileType|inkDiscreteNavigationDirection|inkEAnchor|inkEButtonState|inkEChildOrder|inkEffectType|inkEHorizontalAlign|inkELayerType|inkEOrientation|inkEScrollDirection|inkESizeRule|inkESliderDirection|inkEToggleState|inkEVerticalAlign|inkIconResult|inkInputHintHoldIndicationType|inkLifePath|inkLoadingScreenType|inkMenuMode|inkMenuState|inkSaveStatus|inkSaveTransferStatus|inkSaveType|inkSelectionRule|inkSelectorChangeDirection|inkTextureType|inputContextType|InstanceState|IntercomStatus|InventoryItemAttachmentType|InventoryModes|InventoryPaperdollZoomArea|InventoryTooltipDisplayContext|ItemAdditionalInfoType|ItemComparisonState|ItemDisplayContext|ItemDisplayNotificationMessage|ItemDisplayType|ItemFilterCategory|ItemFilterType|ItemIconGender|ItemLabelType|ItemModeGridSize|ItemSortMode|ItemViewModes|JournalChangeType|JournalNotifyOption|LadderCameraParams|LandingType|LaserTargettingState|LootItemType|MechanicalScanType|meleeMoveDirection|meleeQueuedAttack|MessageViewType|MessengerContactType|MinigameActionType|ModuleState|MountType|moveCirclingDirection|moveExplorationType|moveLineOfSight|moveLocomotionAction|moveMovementType|moveSecureFootingFailureReason|moveSecureFootingFailureType|NavGenAgentSize|navNaviPositionType|operationsMode|OutcomeMessage|PackageStatus|panzerBootupUI|PaperdollPositionAnimation|PauseMenuAction|PaymentStatus|PerkMenuAttribute|physicsStateValue|PlayerChangeCameraAndLeaveVehiclePhase|PlayerCombatControllerRefreshPolicyEnum|PlayerCombatState|PlayerVisionModeControllerRefreshPolicyEnum|PopupPosition|ProgramEffect|ProgramType|ProximityProgressBarOrientation|ProximityProgressBarState|PuppetVehicleState|QuantityPickerActionType|questJournalAlignmentEventType|questJournalSizeEventType|questObjectInspectEventType|questPhoneCallMode|questPhoneCallPhase|questPhoneStatus|questPhoneTalkingState|QuickSlotActionType|QuickSlotItemType|ReactionZones_Humanoid_Side|RequestType|RipperdocFilter|RipperdocModes|ScannerDataType|ScannerNetworkState|ScannerObjectType|scnDialogLineLanguage|scnDialogLineType|scnFastForwardMode|scnPlayDirection|scnPlaySpeed|SecurityEventScopeSettings|senseEShapeType|SettingsType|SignalType|SignShape|SignType|SlotType|TargetComponentFilterType|TargetingSet|telemetryHitDefenseType|telemetryInitalChoiceStage|telemetryLevelGainReason|telemetryMovementType|TestCasePhase|textHorizontalAlignment|textLetterCase|textVerticalAlignment|ThrowType|Tier2WalkType|TransferSaveAction|TransferSaveState|TransmogSlots|TSFMV|TweakWeaponPose|UIGameContext|UIInGameNotificationType|UIItemCategory|UIMenuNotificationType|UIObjectiveEntryType|UserSettingsLoadStatus|vehicleAudioEventAction|vehicleCameraPerspective|vehicleCameraType|VehicleDoorInteractionState|VehicleDoorState|vehicleELightMode|vehicleELightType|vehicleEState|vehicleExitDirection|vehicleGarageState|vehicleQuestUIEnable|vehicleQuestWindowDestruction|vehicleRaceUI|vehicleSummonState|VendorConfirmationPopupType|VideoType|VisionModePatternType|VisualState|WeaponPartType|WeaponType|WorkspotConditionOperators|WorkspotSlidingBehaviour|WorkspotWeaponConditionEnum|workWorkspotDebugMode|worldgeometryaverageNormalDetectionHelperQueryStatus|worldgeometryDescriptionQueryFlags|worldgeometryDescriptionQueryStatus|worldgeometryProbingStatus|WorldMapTooltipType|worldNavigationRequestStatus|worldOffMeshConnectionType|worldRainIntensity|worldTrafficLightColor)(\\.)([_[:alnum:]]+\\b)(?:(?!\\())",
+            "captures": {
+                "1": {
+                    "name": "entity.name.type.enum.redmod-script"
+                },
+                "2": {
+                    "name": "keyword.operator.member-access.redmod-script"
+                },
+                "3": {
+                    "name": "constant.numeric.enum.redmod-script"
+                }
+            }
+        },
+        "instantiation": {
+            "name": "meta.enum.builtin.redmod-script",
+            "match": "(?<![_\\.[:alnum:]])\\b(new)\\s+([_[:alnum:]]+\\b)",
+            "captures": {
+                "1": {
+                    "name": "keyword.operator.new.redmod-script"
+                },
+                "2": {
+                    "name": "entity.name.type.redmod-script"
+                }
+            }
+        },
+        "variable": {
+            "name": "meta.variable.redmod-script",
+            "begin": "(?<![_\\][:alnum:]])(?:(?=[_[:alnum:]]))",
+            "end": "(?:(?=[\\s\\),;\\.]))",
+            "patterns": [
+                {
+                    "include": "#variable-name"
+                },
+                {
+                    "include": "#indexing"
+                },
+                {
+                    "name": "keyword.operator.member-access.redmod-script",
+                    "match": "\\."
+                }
+            ]
+        },
+        "assignment": {
+            "name": "meta.assignment.redmod-script",
+            "begin": "(?<![_[:alnum:]])(?:(?=[a-zA-Z][^;]*\\s[-!*/&+|]?=[^=]))",
+            "end": "(?:(?=;|\\)))",
+            "patterns": [
+                {
+                    "include": "#variable"
+                },
+                {
+                    "begin": "(?:\\s*([-!*/&+|]?=)\\s*)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.assignment.redmod-script"
+                        }
+                    },
+                    "end": "(?:(?=;|\\)))",
+                    "patterns": [
+                        {
+                            "include": "#expression-body"
+                        }
+                    ]
+                }
+            ]
+        },
+        "operators": {
+            "name": "meta.operators.redmod-script",
+            "patterns": [
+                {
+                    "match": "(?:\\s*([!<=>]=|<|>)\\s*)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.equality.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "match": "(?:\\s*(&&|\\|\\||[-!*/&+|\\^%])\\s*)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.binary.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "match": "(?:\\s*(!!|[!~])\\s*)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.unary.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "match": "(?:\\s*(\\?|:)\\s*)",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.ternary.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "include": "#semi"
+                }
+            ]
+        },
+        "type-cast": {
+            "name": "meta.expression.type-cast.redmod-script",
+            "begin": "(?<![_\\.\\)[:alnum:]])(?:(?=\\([^\\(\\)]+?\\)(?:\\(|[_[:alnum:]])))",
+            "end": "(?<=\\))",
+            "patterns": [
+                {
+                    "begin": "\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.expression.begin.redmod-script"
+                        }
+                    },
+                    "end": "\\)(?:(?=\\(|[_[:alnum:]]))",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.expression.end.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#type"
+                        }
+                    ]
+                },
+                {
+                    "include": "#expressions"
+                }
+            ]
+        },
+        "indexing": {
+            "name": "meta.indexing.redmod-script",
+            "begin": "\\[",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.index.begin.redmod-script"
+                }
+            },
+            "end": "\\]",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.index.end.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#expression-body"
+                }
+            ]
+        },
+        "function-call": {
+            "name": "meta.function-call.redmod-script",
+            "begin": "(\\.)?\\b([a-zA-Z][_[:alnum:]]+)\\b(?:(?=\\())",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.operator.member-access.redmod-script"
+                },
+                "2": {
+                    "name": "entity.name.function.redmod-script"
+                }
+            },
+            "end": "(?:(?<=\\)))",
+            "patterns": [
+                {
+                    "name": "meta.parameters.redmod-script",
+                    "begin": "\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.parameters.begin.redmod-script"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.parameters.end.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#expression-body"
+                        },
+                        {
+                            "name": "punctuation.separator.parameter.redmod-script",
+                            "match": ","
+                        }
+                    ]
+                }
+            ]
+        },
+        "semi": {
+            "match": ";",
+            "name": "punctuation.statement.end.redmod-script"
+        },
+        "tagged-literal": {
+            "name": "constant.character.escape.tagged-literal.redmod-script",
+            "begin": "(?<![_[:alnum:]])(\\b[TR])\"",
+            "beginCaptures": {
+                "1": {
+                    "name": "entity.name.tag.redmod-script"
+                }
+            },
+            "end": "\"",
+            "patterns": [ ]
+        },
+        "cname-literal": {
+            "name": "constant.character.escape.cname.redmod-script",
+            "begin": "'",
+            "end": "'",
+            "patterns": [ ]
+        },
+        "numeric-literal": {
+            "match": "(?<=^|[\\[\\(,\\s<>=\\?:])-?(?:\\.?\\d+f?(?!\\.)|\\d+(?:\\.\\d*f?))\\b",
+            "name": "constant.numeric.redmod-script"
+        },
+        "strings": {
+            "name": "string.quoted.double.redmod-script",
+            "begin": "\"",
+            "end": "\"",
+            "patterns": [ ]
+        },
+		"boolean": {
+			"match": "(?<![_[:alnum:]])(true|false)\\b",
+			"name": "constant.language.boolean.redmod-script"
+		},
+		"keyword-null": {
+			"match": "(?<![_[:alnum:]])(NULL)\\b",
+			"name": "constant.language.null.redmod-script"
+		},
+		"primitives": {
+			"patterns": [
+				{
+					"include": "#numeric-literal"
+				},
+				{
+					"include": "#boolean"
+				},
+                {
+                    "include": "#keyword-null"
+                },
+                {
+                    "include": "#tagged-literal"
+                },
+                {
+                    "include": "#cname-literal"
+                },
+				{
+					"include": "#strings"
+				}
+			]
+		},
+        "variable-declaration": {
+            "name": "meta.var-declaration.redmod-script",
+            "begin": "(?<![_[:alnum:]])(?:(?=(?:[[:alnum:]]+\\s)*var\\s+))",
+            "end": "(?<=;)",
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])(?:\\b(public|private|protected|(?:instance)?editable|const|import|export|inlined|persistent|mutable|replicated)\\s+)",
+                    "name": "storage.modifier.var.$1.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\bvar(?:(?=\\s))",
+                    "name": "storage.type.var.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\bm_[_[:alnum:]]+(?:(?=\\s|:))",
+                    "name": "variable.other.constant.member.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\b[_[:alnum:]]+(?:(?=,|\\s|:))",
+                    "name": "variable.name.redmod-script"
+                },
+                {
+                    "name": "punctuation.separator.vardecl-shorthand.redmod-script",
+                    "match": ","
+                },
+                {
+                    "name": "meta.type.annotation.redmod-script",
+                    "begin": "(:)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.type.annotation.redmod-script"
+                        }
+                    },
+                    "end": "(?=;)",
+                    "patterns": [
+                        {
+                            "include": "#type"
+                        }
+                    ]
+                }
+            ]
+        },
+        "default-definition": {
+            "name": "meta.default-definition.redmod-script",
+            "begin": "(?<![_[:alnum:]])\\b(default)(?:(?=\\s+[_[:alnum:]]+\\s*=))",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.default.redmod-script"
+                }
+            },
+            "end": "(?<=;)",
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])\\bm_[_[:alnum:]]+(?:(?=\\s|:))",
+                    "name": "variable.other.constant.member.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\b[_[:alnum:]]+(?:(?=\\s|:))",
+                    "name": "variable.name.redmod-script"
+                },
+                {
+                    "begin": "(?:\\s*(=)\\s*)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.assignment.default.redmod-script"
+                        }
+                    },
+                    "end": "(?=;)",
+                    "patterns": [
+                        {
+                            "name": "meta.enum-value.redmod-script",
+                            "match": "(?<![_[:alnum:]])\\b([a-zA-Z][_[:alnum:]]+)(\\.)([a-zA-Z][_[:alnum:]]+)\\b",
+                            "captures": {
+                                "1": {
+                                    "name": "entity.name.type.enum.redmod-script"
+                                },
+                                "2": {
+                                    "name": "keyword.operator.member-access.redmod-script"
+                                },
+                                "3": {
+                                    "name": "constant.numeric.enum.redmod-script"
+                                }
+                            }
+                        },
+                        {
+                            "include": "#primitives"
+                        }
+                    ]
+                }
+            ]
+        },
+        "hint-definition": {
+            "name": "meta.hint-definition.redmod-script",
+            "begin": "(?<![_[:alnum:]])\\b(hint)(?:(?=\\s+[_[:alnum:]]+\\s*=))",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.hint.redmod-script"
+                }
+            },
+            "end": "(?<=;)",
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])\\bm_[_[:alnum:]]+(?:(?=\\s|:))",
+                    "name": "variable.other.constant.member.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])\\b[_[:alnum:]]+(?:(?=\\s|:))",
+                    "name": "variable.name.redmod-script"
+                },
+                {
+                    "begin": "(?:\\s*(=)\\s*)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.assignment.hint.redmod-script"
+                        }
+                    },
+                    "end": "(?=;)",
+                    "patterns": [
+                        {
+                            "include": "#strings"
+                        }
+                    ]
+                }
+            ]
+        },
+        "decorator-declaration": {
+            "name": "meta.decorator.redmod-script",
+            "begin": "(?<![_\\)[:alnum:]])\\[",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.begin.redmod-script"
+                }
+            },
+            "end": "\\]",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.tag.end.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])\\b(category|custom(?:InnerType)?Editor|profile|[Tt]ooltip|unsavable|rangeM(?:ax|in))(?:(?=\\s*=))",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.label.decorator.redmod-script"
+                        },
+                        "2": {
+                            "name": "keyword.operator.assign.meta.redmod-script"
+                        },
+                        "3": {
+                            "name": "meta.preprocessor.string.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "begin": "(?:\\s*(=)\\s*)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.assignment.decorator.redmod-script"
+                        }
+                    },
+                    "end": "(?=\\])",
+                    "patterns": [
+                        {
+                            "include": "#strings"
+                        }
+                    ]
+                }
+            ]
+        },
+        "class-definition": {
+            "name": "meta.class-definition.redmod-script",
+            "begin": "(?<![_[:alnum:]])(?:(?=(?:[[:alnum:]]+\\s)*(?:class|struct)\\s+))",
+            "end": "(?<=\\})",
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])(?:\\b(import|importonly|abstract|final)\\s+)",
+                    "captures": {
+                        "1": {
+                            "name": "storage.modifier.class.$1.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "match": "(?<![_[:alnum:]])(?:(class|struct)(?=\\s+))",
+                    "name": "storage.type.$1.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])([_[:alnum:]]+\\b)(?:\\s+(extends)\\s+([_[:alnum:]]+\\b))?",
+                    "captures": {
+                        "1": {
+                            "name": "entity.name.class.redmod-script"
+                        },
+                        "2": {
+                            "name": "storage.modifier.inheritance.redmod-script"
+                        },
+                        "3": {
+                            "name": "entity.name.class.parent.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "name": "meta.class-body.redmod-script",
+                    "begin": "\\{",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.redmod-script"
+                        }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#variable-declaration"
+                        },
+                        {
+                            "include": "#default-definition"
+                        },
+                        {
+                            "include": "#hint-definition"
+                        },
+                        {
+                            "include": "#decorator-declaration"
+                        },
+                        {
+                            "include": "#function-definition"
+                        }
+                    ]
+                }
+            ]
+        },
+        "enum-definition": {
+            "name": "meta.enum-definition.redmod-script",
+            "begin": "(?<![_[:alnum:]])(?:(import)\\s+)?(enum)\\s+([_[:alnum:]]+\\b)(?:\\s*(:)\\s*([[:alnum:]]+\\b))?",
+            "beginCaptures": {
+                "1": {
+                    "name": "storage.modifier.import.redmod-script"
+                },
+                "2": {
+                    "name": "storage.type.enum.redmod-script"
+                },
+                "3": {
+                    "name": "entity.name.type.enum.redmod-script"
+                },
+                "4": {
+                    "name": "keyword.operator.type.annotation.redmod-script"
+                },
+                "5": {
+                    "name": "entity.name.type.enum.redmod-script"
+                }
+            },
+            "end": "(?<=\\})",
+            "patterns": [
+                {
+                    "name": "meta.enum-body.redmod-script",
+                    "begin": "\\{",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.redmod-script"
+                        }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "name": "meta.enummember.redmod-script",
+                            "begin": "(?<![_[:alnum:]])([_[:alnum:]]+)",
+                            "beginCaptures": {
+                                "1": {
+                                    "name": "variable.other.enummember.redmod-script"
+                                }
+                            },
+                            "end": "(?<=,|\\n)",
+                            "patterns": [
+                                {
+                                    "match": "(?:\\s*(=)\\s*)",
+                                    "name": "keyword.operator.assignment.enummember.redmod-script"
+                                },
+                                {
+                                    "include": "#numeric-literal"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        },
+        "operator-definition": {
+            "name": "meta.operator-definition.redmod-script",
+            "begin": "(?<![_[:alnum:]])(import(?:\\s+))?(operator(\\[\\]|\\|\\||&&|[\\^%~]|[-!*/&+<=>|]=?))",
+            "beginCaptures": {
+                "1": {
+                    "name": "storage.modifier.import.redmod-script"
+                },
+                "2": {
+                    "name": "entity.name.operator.redmod-script"
+                }
+            },
+            "end": "(?<=\\}|;)",
+            "patterns": [
+                {
+                    "include": "#function-body"
+                }
+            ]            
+        },
+        "function-definition": {
+            "name": "meta.function-definition.redmod-script",
+            "begin": "(?<![_[:alnum:]])(?:(?=(?:[[:alnum:]]+\\s)*(?:cast|function|event)\\s+))",
+            "end": "(?<=\\}|;)",
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])(?:\\b(public|private|protected|import|implicit|export|override|static|quest|final|const|constexpr|virtual|exec)\\s+)",
+                    "captures": {
+                        "1": {
+                            "name": "storage.modifier.$1.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "match": "(?<![_[:alnum:]])(?:(function|event)(?=\\s+))",
+                    "name": "storage.type.$1.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])(cast)\\b(?=\\s*\\()",
+                    "name": "storage.type.cast.redmod-script"
+                },
+                {
+                    "match": "(?<![_[:alnum:]])[_[:alnum:]]+\\b(?=\\s*\\()",
+                    "name": "entity.name.function.redmod-script"
+                },
+                {
+                    "include": "#function-body"
+                }
+            ]
+        },
+        "function-body": {
+            "patterns": [
+                {
+                    "include": "#function-parameters"
+                },
+                {
+                    "include": "#return-type"
+                },
+                {
+                    "include": "#semi"
+                },
+                {
+                    "include": "#script-block"
+                }
+            ]
+        },
+        "return-type": {
+            "patterns": [
+                {
+                    "name": "meta.return.type.redmod-script",
+                    "begin": "(?<=\\))\\s*(:)(?=\\s*\\S)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.type.annotation.redmod-script"
+                        }
+                    },
+                    "end": "(?<!:)(?=$|\\{)",
+                    "patterns": [
+                        {
+                            "include": "#type"
+                        }
+                    ]
+                }
+            ]
+        },
+        "function-parameters": {
+            "name": "meta.parameters.redmod-script",
+            "begin": "\\(",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.parameters.begin.redmod-script"
+                }
+            },
+            "end": "\\)",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.parameters.end.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#function-parameters-body"
+                }
+            ]
+        },
+        "function-parameters-body": {
+            "patterns": [
+                {
+                    "include": "#parameter-name"
+                },
+                {
+                    "include": "#parameter-type-annotation"
+                },
+                {
+                    "name": "punctuation.separator.parameter.redmod-script",
+                    "match": ","
+                }
+            ]
+        },
+        "parameter-name": {
+            "patterns": [
+                {
+                    "match": "(?<![_[:alnum:]])(?:\\b(out|const|optional)\\s+)",
+                    "captures": {
+                        "1": {
+                            "name": "storage.modifier.param.$1.redmod-script"
+                        }
+                    }
+                },
+                {
+                    "match": "(?<![_[:alnum:]])(?:([_[:alnum:]]+)\\s*)",
+                    "captures": {
+                        "1": {
+                            "name": "variable.parameter.redmod-script"
+                        }
+                    }
+                }
+            ]
+        },
+        "parameter-type-annotation": {
+            "patterns": [
+                {
+                    "name": "meta.type.annotation.redmod-script",
+                    "begin": "(:)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "keyword.operator.type.annotation.redmod-script"
+                        }
+                    },
+                    "end": "(?=[,)])",
+                    "patterns": [
+                        {
+                            "include": "#type"
+                        }
+                    ]
+                }
+            ]
+        },
+        "type": {
+            "patterns": [
+                {
+                    "include": "#primitive-types"
+                },
+                {
+                    "begin": "([_[:alnum:]]+)\\s*(<)",
+                    "beginCaptures": {
+                        "1": {
+                            "name": "entity.name.type.redmod-script"
+                        },
+                        "2": {
+                            "name": "punctuation.definition.sub-type.begin.redmod-script"
+                        }
+                    },
+                    "end": "(>)",
+                    "endCaptures": {
+                        "1": {
+                            "name": "punctuation.definition.sub-type.end.redmod-script"
+                        }
+                    },
+                    "contentName": "meta.type.sub-type.redmod-script",
+                    "patterns": [
+                        {
+                            "include": "#type"
+                        }
+                    ]
+
+                },
+                {
+                    "match": "(?<![_[:alnum:]])[_[:alnum:]]+\\b",
+                    "name": "entity.name.type.redmod-script"
+                },
+                {
+                    "name": "meta.type.annotation.static-array.redmod-script",
+                    "begin": "\\[",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.array-size.begin.redmod-script"
+                        }
+                    },
+                    "end": "\\]",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.array-size.end.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#numeric-literal"
+                        }
+                    ]
+                }
+            ]
+        },
+        "simple-types": {
+            "disabled": 1
+        },
+        "primitive-types": {
+            "match": "(?<![_[:alnum:]])(ref|weak|array)\\b(?:(?=\\s*<))",
+            "name": "storage.type.primitive.redmod-script"
+        },
+        "condition-block": {
+            "name": "meta.control.condition.redmod-script",
+            "begin": "(?<![_[:alnum:]\\.])(if|else(?:\\s+if)?)",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.condition.redmod-script"
+                }
+            },
+            "end": "(?<=\\})",
+            "patterns": [
+                {
+                    "begin": "\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.condition.begin.redmod-script"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.condition.end.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#expression-body"
+                        }
+                    ]
+                },
+                {
+                    "include": "#script-block"
+                }
+            ]
+        },
+        "switch-statement": {
+            "name": "meta.control.switch.redmod-script",
+            "begin": "(?<![_[:alnum:]\\.])(switch)",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.switch.redmod-script"
+                }
+            },
+            "end": "(?<=\\})",
+            "patterns": [
+                {
+                    "begin": "\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.switch.begin.redmod-script"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.switch.end.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#expression-body"
+                        }
+                    ]
+                },
+                {
+                    "name": "meta.switch-block.redmod-script",
+                    "begin": "\\{",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.switch.redmod-script"
+                        }
+                    },
+                    "end": "\\}",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.block.switch.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#variable-declaration"
+                        },
+                        {
+                            "include": "#condition-block"
+                        },
+                        {
+                            "include": "#switch-statement"
+                        },
+                        {
+                            "include": "#switch-case"
+                        },
+                        {
+                            "include": "#loops"
+                        },
+                        {
+                            "include": "#statements"
+                        }
+                    ]
+                }
+            ]
+        },
+        "switch-case": {
+            "name": "meta.switch.case.redmod-script",
+            "begin": "(?<![_[:alnum:]\\.])(case|default)\\b",
+            "beginCaptures": {
+                "1": {
+                    "name": "keyword.control.$1.redmod-script"
+                }
+            },
+            "end": ":",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.switch-case.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#primitives"
+                },
+                {
+                    "include": "#builtin-enum"
+                },
+                {
+                    "include": "#variable"
+                }
+            ]
+        },
+        "for-loop": {
+            "begin": "(?<![_[:alnum:]\\.])\\bfor(?:(?=\\s*\\())",
+            "beginCaptures": {
+                "0": {
+                    "name": "keyword.control.flow.for.redmod-script"
+                }
+            },
+            "end": "(?<=\\})",
+            "patterns": [
+                {
+                    "name": "meta.control.flow.parameters.redmod-script",
+                    "begin": "\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.for-loop.redmod-script"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.for-loop.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#assignment"
+                        },
+                        {
+                            "include": "#expression-body"
+                        },
+                        {
+                            "include": "#semi"
+                        }
+                    ]
+                },
+                {
+                    "include": "#script-block"
+                }
+            ]
+        },
+        "while-loop": {
+            "begin": "(?<![_[:alnum:]\\.])\\bwhile(?:(?=\\s*\\())",
+            "beginCaptures": {
+                "0": {
+                    "name": "keyword.control.flow.while.redmod-script"
+                }
+            },
+            "end": "(?<=\\}|;)",
+            "patterns": [
+                {
+                    "include": "#expressions"
+                },
+                {
+                    "include": "#script-block"
+                }
+            ]
+        },
+        "do-while-loop": {
+            "begin": "(?<![_[:alnum:]\\.])\\bdo(?:(?=\n?\\s*\\{))",
+            "beginCaptures": {
+                "0": {
+                    "name": "keyword.control.flow.do-while.redmod-script"
+                }
+            },
+            "end": "(?<=;)",
+            "patterns": [
+                {
+                    "include": "#script-block"
+                },
+                {
+                    "include": "#while-loop"
+                }
+            ]
+        },
+        "loops": {
+            "name": "meta.control.flow.redmod-script",
+            "patterns": [
+                {
+                    "include": "#do-while-loop"
+                },
+                {
+                    "include": "#while-loop"
+                },
+                {
+                    "include": "#for-loop"
+                }
+            ]
+        },
+        "script-block": {
+            "name": "meta.block.redmod-script",
+            "begin": "\\{",
+            "beginCaptures": {
+                "0": {
+                    "name": "punctuation.definition.block.redmod-script"
+                }
+            },
+            "end": "\\}",
+            "endCaptures": {
+                "0": {
+                    "name": "punctuation.definition.block.redmod-script"
+                }
+            },
+            "patterns": [
+                {
+                    "include": "#variable-declaration"
+                },
+                {
+                    "include": "#condition-block"
+                },
+                {
+                    "include": "#switch-statement"
+                },
+                {
+                    "include": "#loops"
+                },
+                {
+                    "include": "#statements"
+                }
+            ]
+        }
+    },
+    "scopeName": "source.redmod-script"
+}

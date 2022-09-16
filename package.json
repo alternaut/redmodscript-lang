@@ -1,0 +1,25 @@
+{
+  "name": "redmodscript-lang",
+  "displayName": "REDmodScript Lang",
+  "description": "Syntax highlighting for REDmod '.script' files",
+  "version": "0.0.1",
+  "engines": {
+    "vscode": "^1.71.0"
+  },
+  "categories": [
+    "Programming Languages"
+  ],
+  "contributes": {
+    "languages": [{
+      "id": "redmod-script",
+      "aliases": ["REDmodScript", "redmod-script"],
+      "extensions": [".script", ".ws"],
+      "configuration": "./language-configuration.json"
+    }],
+    "grammars": [{
+      "language": "redmod-script",
+      "scopeName": "source.redmod-script",
+      "path": "./syntaxes/redmod-script.tmLanguage.json"
+    }]
+  }
+}

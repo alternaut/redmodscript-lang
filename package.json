@@ -2,10 +2,18 @@
   "name": "redmodscript-lang",
   "displayName": "REDmodScript Lang",
   "description": "Syntax highlighting for REDmod '.script' files",
+  "repository": {
+    "url": "https://github.com/alternaut/redmodscript-lang",
+    "type": "git"
+  },
+  "license": "MIT",
+  "homepage": "https://github.com/alternaut/redmodscript-lang",
+  "publisher": "alternaut-dev",
   "version": "0.0.1",
   "engines": {
     "vscode": "^1.71.0"
   },
+  "icon": "resources/icon_128.png",
   "categories": [
     "Programming Languages"
   ],

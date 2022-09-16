@@ -1089,9 +1089,9 @@
             ]
         },
         "do-while-loop": {
-            "begin": "(?<![_[:alnum:]\\.])\\bdo(?:(?=\n?\\s*\\{))",
+            "begin": "(?<![_[:alnum:]\\.])(do)\\b",
             "beginCaptures": {
-                "0": {
+                "1": {
                     "name": "keyword.control.flow.do-while.redmod-script"
                 }
             },

@@ -1,3 +1,5 @@
+![REDmodScript icon](resources/icon_128.png) *(this icon is a cry for help...)*
+
 # REDmodScript
 
 VSCode syntax highlighting for [REDmod](https://www.cyberpunk.net/en/modding-support) `'.script'` files.
@@ -35,6 +37,11 @@ Support for:
 ## Installation
 
 Install directly from VSCode's Extension Manager or via the [Marketplace](https://marketplace.visualstudio.com/items?itemName=alternaut-dev.redmodscript-lang) page.
+
+
+## Limitations
+
+- There is currently no highlighting for comments.
 
 ## Known Issues
 

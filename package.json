@@ -9,7 +9,7 @@
   "license": "MIT",
   "homepage": "https://github.com/alternaut/redmodscript-lang",
   "publisher": "alternaut-dev",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
     "vscode": "^1.71.0"
   },
@@ -18,16 +18,26 @@
     "Programming Languages"
   ],
   "contributes": {
-    "languages": [{
-      "id": "redmod-script",
-      "aliases": ["REDmodScript", "redmod-script"],
-      "extensions": [".script", ".ws"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "redmod-script",
-      "scopeName": "source.redmod-script",
-      "path": "./syntaxes/redmod-script.tmLanguage.json"
-    }]
+    "languages": [
+      {
+        "id": "redmod-script",
+        "aliases": [
+          "REDmodScript",
+          "redmod-script"
+        ],
+        "extensions": [
+          ".script",
+          ".ws"
+        ],
+        "configuration": "./language-configuration.json"
+      }
+    ],
+    "grammars": [
+      {
+        "language": "redmod-script",
+        "scopeName": "source.redmod-script",
+        "path": "./syntaxes/redmod-script.tmLanguage.json"
+      }
+    ]
   }
 }

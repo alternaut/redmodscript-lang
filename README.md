@@ -15,23 +15,31 @@ Makes browsing CDPR's source scripts *subjectively* more pleasant. Beyond that, 
 
 Support for:
 - **attributes** for `class/struct` members
+  
   ![attributes preview](resources/attributes.png)
 
 - **runtime defaults** for `class/struct` members
+  
   ![runtime-defaults preview](resources/runtime-defaults.png)
 
 - **type-**`cast overloads`
+  
   ![type-cast-overloads preview](resources/type-cast-overloads.png)
 
 - **operator** `overloads`
+  
   ![operator-overload preview](resources/op-overloads.png)
 
 - `NULL`*-type*; `m_*` member variable and *known-*`enum` member distinctions
+  
   ![various coverage preview](resources/various_01.png)
 
 - distinction between `CName`, `TweakDBID`, `ResRef` literals and generic `String`-literals
+  
   ![literals preview](resources/literals.png)
+
   *(`CName` literal is single-quoted):*
+  
   ![cname event preview](resources/events.png)
 
 ## Installation

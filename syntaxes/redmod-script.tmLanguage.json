@@ -711,7 +711,7 @@
             "end": "(?<=\\}|;)",
             "patterns": [
                 {
-                    "match": "(?<![_[:alnum:]])(?:\\b(public|private|protected|import|implicit|export|override|static|quest|final|const|constexpr|virtual|exec)\\s+)",
+                    "match": "(?<![_[:alnum:]])(?:\\b(public|private|protected|import|implicit|export|override|static|quest|testonly|final|const|constexpr|virtual|exec)\\s+)",
                     "captures": {
                         "1": {
                             "name": "storage.modifier.$1.redmod-script"
@@ -941,7 +941,7 @@
         },
         "switch-statement": {
             "name": "meta.control.switch.redmod-script",
-            "begin": "(?<![_[:alnum:]\\.])(switch)",
+            "begin": "(?<![_[:alnum:]\\.])(switch)\\b",
             "beginCaptures": {
                 "1": {
                     "name": "keyword.control.switch.redmod-script"

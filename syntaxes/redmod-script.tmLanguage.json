@@ -37,16 +37,16 @@
                     "end": "(?:(?=;))",
                     "patterns": [
                         {
-                            "include": "#assignment"
+                            "include": "#expression-body"
                         },
                         {
-                            "include": "#expression-body"
+                            "include": "#assignment"
                         }
                     ]
                 },
                 {
-                    "name": "keyword.control.break.redmod-script",
-                    "match": "(?<![_\\.[:alnum:]])\\b(break)(?:(?=\\s*;))"
+                    "match": "(?<![_\\.[:alnum:]])\\b(break|continue)(?:(?=\\s*;))",
+                    "name": "keyword.control.$1.redmod-script"
                 },
                 {
                     "include": "#assignment"
@@ -88,9 +88,6 @@
         },
         "expression-body": {
             "patterns": [
-                {
-                    "include": "#ternary"
-                },
                 {
                     "include": "#type-cast"
                 },
@@ -218,7 +215,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\s*(&&|\\|\\||[-!*/&+|\\^%])\\s*)",
+                    "match": "(?:\\s*(?!-\\d)(&&|\\|\\||[-!*/&+|\\^%])\\s*)",
                     "captures": {
                         "1": {
                             "name": "keyword.operator.binary.redmod-script"

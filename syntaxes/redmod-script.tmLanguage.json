@@ -121,7 +121,7 @@
             "name": "meta.variable.name.redmod-script",
             "patterns": [
                 {
-                    "match": "(?<![_[:alnum:]])\\b(this|super)",
+                    "match": "(?<![_[:alnum:]])\\b(this|super)\\b",
                     "name": "constant.language.$1.redmod-script"
                 },
                 {

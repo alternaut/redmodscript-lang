@@ -9,7 +9,7 @@
   "license": "MIT",
   "homepage": "https://github.com/alternaut/redmodscript-lang",
   "publisher": "alternaut-dev",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "engines": {
     "vscode": "^1.71.0"
   },

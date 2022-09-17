@@ -98,6 +98,9 @@
                     "include": "#primitives"
                 },
                 {
+                    "include": "#struct-init"
+                },
+                {
                     "include": "#function-call"
                 },
                 {
@@ -297,6 +300,42 @@
             "patterns": [
                 {
                     "include": "#expression-body"
+                }
+            ]
+        },
+        "struct-init": {
+            "name": "meta.struct.init.redmod-script",
+            "begin": "(?<!\\.)\\b(Box|Color|EngineTime|EulerAngles|GameTime|HDRColor|Matrix|Quaternion|RectF|Sphere|Transform|Vector2|Vector3|Vector4|WorldPosition|WorldTransform)\\b(?:(?=\\())",
+            "beginCaptures": {
+                "1": {
+                    "name": "entity.name.type.struct.redmod-script"
+                }
+            },
+            "end": "(?:(?<=\\)))",
+            "patterns": [
+                {
+                    "name": "meta.parameters.redmod-script",
+                    "begin": "\\(",
+                    "beginCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.parameters.begin.redmod-script"
+                        }
+                    },
+                    "end": "\\)",
+                    "endCaptures": {
+                        "0": {
+                            "name": "punctuation.definition.parameters.end.redmod-script"
+                        }
+                    },
+                    "patterns": [
+                        {
+                            "include": "#expression-body"
+                        },
+                        {
+                            "name": "punctuation.separator.parameter.redmod-script",
+                            "match": ","
+                        }
+                    ]
                 }
             ]
         },

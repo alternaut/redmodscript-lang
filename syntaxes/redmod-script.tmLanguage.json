@@ -122,7 +122,7 @@
                     "name": "constant.language.$1.redmod-script"
                 },
                 {
-                    "match": "(?<![_\\.[:alnum:]])\\b[A-Z][_[:alnum:]]+\\b(?:(?=\\.))",
+                    "match": "(?<![_\\.[:alnum:]])\\b(?:ink|[A-Z])[_[:alnum:]]+\\b(?:(?=\\.))",
                     "name": "entity.name.type.static.redmod-script"
                 },
                 {

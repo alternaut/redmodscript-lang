@@ -118,7 +118,7 @@
             "name": "meta.variable.name.redmod-script",
             "patterns": [
                 {
-                    "match": "(?<![_[:alnum:]])\\b(this|super)\\b",
+                    "match": "(?<![_\\.[:alnum:]])\\b(this|super)\\b",
                     "name": "constant.language.$1.redmod-script"
                 },
                 {
@@ -126,7 +126,7 @@
                     "name": "entity.name.type.static.redmod-script"
                 },
                 {
-                    "match": "(?<![_[:alnum:]])\\bm_[_[:alnum:]]+",
+                    "match": "(?<![_[:alnum:]])\\bm_[_[:alnum:]]+\\b",
                     "name": "variable.other.constant.member.redmod-script"
                 },
                 {
@@ -181,14 +181,14 @@
         },
         "assignment": {
             "name": "meta.assignment.redmod-script",
-            "begin": "(?<![_[:alnum:]])(?:(?=[a-zA-Z][^;]*\\s[-!*/&+|]?=[^=]))",
+            "begin": "(?<![_[:alnum:]])(?:(?=[a-zA-Z][^;\\(\\)]*\\s[-*/\\^&+|]?=[^=]))",
             "end": "(?:(?=;|\\)))",
             "patterns": [
                 {
                     "include": "#variable"
                 },
                 {
-                    "begin": "(?:\\s*([-!*/&+|]?=)\\s*)",
+                    "begin": "(?:\\s*([-*/\\^&+|]?=)\\s*)",
                     "beginCaptures": {
                         "1": {
                             "name": "keyword.operator.assignment.redmod-script"
@@ -207,6 +207,14 @@
             "name": "meta.operators.redmod-script",
             "patterns": [
                 {
+                    "match": "(?<!=)(?:([-*/\\^&+|]?=)(?!=))",
+                    "captures": {
+                        "1": {
+                            "name": "keyword.operator.assignment.redmod-script"
+                        }
+                    }
+                },
+                {
                     "match": "(?:\\s*([!<=>]=|<|>)\\s*)",
                     "captures": {
                         "1": {
@@ -215,7 +223,7 @@
                     }
                 },
                 {
-                    "match": "(?:\\s*(?!-\\d)(&&|\\|\\||[-!*/&+|\\^%])\\s*)",
+                    "match": "(?:\\s*(?!-\\d)(&&|\\|\\||[-*/&+|\\^%])\\s*)",
                     "captures": {
                         "1": {
                             "name": "keyword.operator.binary.redmod-script"

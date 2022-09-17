@@ -53,14 +53,14 @@
                 },
                 {
                     "name": "meta.call.redmod-script",
-                    "begin": "(?<![_\\.[:alnum:]])\\b(?:(?=[\\.a-zA-Z][_\\.[:alnum:]]*\\())",
+                    "begin": "(?<![_\\.[:alnum:]])\\b(?:(?=[\\.a-zA-Z].*[_[:alnum:]]\\())",
                     "end": "(?:(?=;))",
                     "patterns": [
                         {
-                            "include": "#function-call"
+                            "include": "#variable"
                         },
                         {
-                            "include": "#variable"
+                            "include": "#function-call"
                         }
                     ]
                 }
@@ -164,7 +164,7 @@
         },
         "variable": {
             "name": "meta.variable.redmod-script",
-            "begin": "(?<![_\\][:alnum:]])(?:(?=[_[:alnum:]]))",
+            "begin": "(?<![_\\][:alnum:]])(?:(?=[_[:alnum:]]+\\b[^\\(]))",
             "end": "(?:(?=[\\s\\),;\\.]))",
             "patterns": [
                 {
@@ -181,7 +181,7 @@
         },
         "assignment": {
             "name": "meta.assignment.redmod-script",
-            "begin": "(?<![_[:alnum:]])(?:(?=[a-zA-Z][^;\\(\\)]*\\s[-*/\\^&+|]?=[^=]))",
+            "begin": "(?<![_[:alnum:]])(?:\\b(?=[a-zA-Z](?:(?![_\\.[:alnum:]]+\\())[^;]*\\s[-*/\\^&+|]?=[^=]))",
             "end": "(?:(?=;|\\)))",
             "patterns": [
                 {

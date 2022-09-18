@@ -47,7 +47,7 @@
                 {
                     "match": "(?<![_\\.[:alnum:]])\\b(break|continue)(?:(?=\\s*;))",
                     "name": "keyword.control.$1.redmod-script"
-                },
+                },             
                 {
                     "include": "#assignment"
                 },
@@ -1198,6 +1198,9 @@
                 },
                 {
                     "include": "#statements"
+                },
+                {
+                    "include": "#expression-body"
                 }
             ]
         }

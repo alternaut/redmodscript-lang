@@ -1050,6 +1050,9 @@
                         },
                         {
                             "include": "#statements"
+                        },
+                        {
+                            "include": "#expression-body"
                         }
                     ]
                 }

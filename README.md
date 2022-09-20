@@ -1,4 +1,4 @@
-![REDmodScript icon](resources/icon_128.png) *(this icon is a cry for help...)*
+![REDmodScript icon](resources/redmod_script_002.png)
 
 # REDmodScript
 
